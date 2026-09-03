@@ -16,7 +16,10 @@ class Book
         return "Judul:" . $this->title . "\n"
             . "Author: " . $this->author;
     }
+
+    public function borrow()
+    {
+        return "Book borrowed: " . $this->title;
+    }
 }
 
-$Book = new Book("The Great Gatsby", "F. Scott Fitzgerald");
-echo $Book->getInfo();
