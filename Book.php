@@ -2,24 +2,44 @@
 
 class Book
 {
-    public string $title;
-    public string $author;
+    protected string $title;
+    protected string $description;
+    protected string $author;
+    protected int $year;
+    protected bool $borrowed; 
 
-    public function __construct(string $title, string $author)
+    public function __construct(string $title, string $description, string $author, int $year)
     {
         $this->title = $title;
+        $this->description = $description;
         $this->author = $author;
+        $this->year = $year;
+        $this->borrowed = false;
     }
 
-    public function getInfo()
+    public function getTitle(): string
     {
-        return "Judul:" . $this->title . "\n"
-            . "Author: " . $this->author;
+        return $this->title;
     }
 
-    public function borrow()
+    public function isBorrowed(): bool
     {
-        return "Book borrowed: " . $this->title;
+        return $this->borrowed;
+    }
+
+    public function getInfo(): string
+    {
+        $status = $this->borrowed ? "Dipinjam" : "Tersedia";
+        return "Judul: " . $this->title . "\n"
+            . "Deskripsi: " . $this->description . "\n"
+            . "Author: " . $this->author . "\n"
+            . "Tahun: " . $this->year . "\n"
+            . "Status: " . $status . "\n\n";
+    }
+
+    public function borrow(): string
+    {
+        $this->borrowed = true;
+        return "Berhasil meminjam buku: " . $this->title;
     }
 }
-

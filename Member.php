@@ -1,24 +1,40 @@
 <?php
+require_once "Book.php";
 
 class Member
 {
-    public int $id;
-    public string $nama;
+    private int $id;
+    private string $name;
+    private array $borrowedBooks = [];
 
-    public function __construct(int $id, string $nama)
+    public function __construct(int $id, string $name)
     {
         $this->id = $id;
-        $this->nama = $nama;
+        $this->name = $name;
     }
 
-    public function getInfo()
+    public function getInfo(): string
     {
+        $bookList = empty($this->borrowedBooks) ? "Tidak ada" : implode(", ", $this->borrowedBooks);
+
         return "ID: " . $this->id . "\n"
-            . "Nama: " . $this->nama;
+            . "Nama: " . $this->name . "\n"
+            . "Buku yang dipinjam: " . $bookList . "\n\n";
+    }
+
+    public function borrowBook(Book $book): self
+    {
+        if (!$book->isBorrowed()) {
+            echo $book->borrow() . "\n";
+            $this->borrowedBooks[] = $book->getTitle();
+        } else {
+            echo "Gagal: Buku '" . $book->getTitle() . "' sedang dipinjam orang lain.\n";
+        }
+        return $this;
+    }
+
+    public function getBorrowedBooks(): array
+    {
+        return $this->borrowedBooks;
     }
 }
-
-$Member = new Member(1234, "John Herdman");
-echo $Member->getInfo();
-
-?>
